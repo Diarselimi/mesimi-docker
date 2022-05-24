@@ -1,3 +1,14 @@
+<?php
+
+$pdo = new \Pdo(
+    'mysql:host=mysql;dbname=test',
+    'test',
+    'test'
+);
+
+echo '<pre>'.print_r($pdo->query('SELECT * FROM todo')->fetchAll(), 1);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +18,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <header>Aplikacioi, Data Test: <?php echo date('Y-m-d'); ?></header>
+    <header>Aplikacioi, Data: <?php echo date('Y-m-d'); ?></header>
     <div class="inputField">
       <input type="text" placeholder="Shto nje TODO">
       <button>Shto</button>

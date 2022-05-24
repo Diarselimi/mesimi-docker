@@ -1,47 +1,36 @@
-version: "3.9"
+version: '3'
 
 services:
   nginx:
-    build: ./nginx/
-    container_name: nginx-container
+    build: ./nginx
     ports:
       - "80:80"
     links:
       - php
-    volumes_from: 
+    volumes_from:
       - app-data
-
   php:
-    build: ./php/
-    container_name: php-container
-    expose:
+    build: .
+    ports:
       - 9000
-    links:
-      - mysql
-    volumes_from: 
+    volumes_from:
       - app-data
 
   app-data:
     image: php:8.1-fpm
     container_name: app-data-container
+    links:
+      - mysql
     volumes:
-      - ./www/:/var/www/html/
-    command: "true"
+      - ./app/:/var/www/html/
 
-  mysql:    
-    image: mysql:5.7  
-    container_name: mysql-container  
-    volumes_from:  
-      - mysql-data  
-    environment:  
-      MYSQL_ROOT_PASSWORD: secret  
-      MYSQL_DATABASE: mydb  
-      MYSQL_USER: myuser  
-      MYSQL_PASSWORD: password 
-
-  mysql-data:    
-    image: mysql:5.7  
-    container_name: mysql-data-container  
-    volumes:  
-      - /var/lib/mysql  
-    command: "true" 
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
